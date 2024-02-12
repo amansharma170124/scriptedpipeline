@@ -1,12 +1,18 @@
 FROM redhat/ubi8
 MAINTAINER amansharma@gmail.com
-RUN yum install -y httpd 
-RUN yum install -y zip 
-RUN yum install -y unzip
-ADD https://www.free-css.com/assets/files/free-css-templates/download/page296/oxer.zip   /var/www/html
+
+# Install required packages
+RUN yum install -y httpd zip unzip
+
+# Download and extract web content
+ADD https://www.free-css.com/assets/files/free-css-templates/download/page296/oxer.zip /var/www/html/
 WORKDIR /var/www/html
-RUN unzip oxer.zip
-RUN cp -rvf oxer/* .
-RUN rm -rf oxer oxer.zip
+RUN unzip oxer.zip \
+    && cp -rvf oxer/* . \
+    && rm -rf oxer oxer.zip
+
+# Configure CMD for Apache HTTP server
 CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+
+# Expose port 80
 EXPOSE 80
