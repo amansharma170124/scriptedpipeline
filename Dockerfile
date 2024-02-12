@@ -1,10 +1,7 @@
 FROM centos:latest
 MAINTAINER amansharma@gmail.com
 
-# Temporarily disable the 'appstream' repository during the image build
-RUN sed -i 's/enabled=1/enabled=0/' /etc/yum.repos.d/CentOS-AppStream.repo
-
-RUN yum install -y httpd zip unzip
+RUN yum install -y --exclude=centos-release-appstream httpd zip unzip
 
 ADD https://www.free-css.com/assets/files/free-css-templates/download/page296/oxer.zip /var/www/html/
 WORKDIR /var/www/html
